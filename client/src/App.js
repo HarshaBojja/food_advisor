@@ -1,43 +1,23 @@
-import React, { useState, useEffect } from 'react';
-import { Container, AppBar, Typography, Grow, Grid } from '@material-ui/core';
-import { useDispatch } from 'react-redux';
+import React from 'react';
+import { Container } from '@material-ui/core';
+import { BrowserRouter,Routes, Route } from 'react-router-dom';
 
-import Posts from './components/Posts/Posts';
-import Form from './components/Form/Form';
-import { getPosts } from './actions/posts';
-import useStyles from './styles';
-import memories from './images/memories.png';
+import Home from './components/Home/Home';
+import Navbar from './components/Navbar/Navbar';
+import Auth from './components/Auth/Auth';
 
-const App = () => {
-  const [currentId, setCurrentId] = useState(0);
-  const dispatch = useDispatch();
-  const classes = useStyles();
-
-  useEffect(() => {
-    dispatch(getPosts());
-  }, [currentId, dispatch]);
-
-  return (
+const App = () => (
+  <BrowserRouter>
     <Container maxWidth="lg">
-      <AppBar className={classes.appBar} position="static" color="inherit">
-        <Typography className={classes.heading} variant="h2" align="center">FOOD ADVISOR</Typography>
-        <img className={classes.image} src={memories} alt="icon" height="60" />
-      </AppBar>
-      <Grow in>
-        <Container>
-          <Grid container className={classes.mainContainer} justify="space-between" alignItems="stretch" spacing={3}>
-            <Grid item xs={12} sm={7}>
-              <Posts setCurrentId={setCurrentId} />
-            </Grid>
-            <Grid item xs={12} sm={4}>
-              <Form currentId={currentId} setCurrentId={setCurrentId} />
-            </Grid>
-          </Grid>
-        </Container>
-      </Grow>
+      <Navbar />
+      <Routes>
+      <Route path='/' exact element={<Home />} />
+      <Route path='/auth' exact element={<Auth />} />
+      </Routes>
     </Container>
-  );
-};
+    
+  </BrowserRouter>
+);
 
 export default App;
 
@@ -46,4 +26,6 @@ export default App;
 //below AppBar use Grow it provide basic animations 
 //under the Grid type container it can be add two diff grid items
 //xs={12} means full width in xtra small devices and sm={7} 7 out of 12 in small medium devices
+//<Route path="/" exact component={Home} />
+//<Route path="/auth" exact component={Auth} />
  
